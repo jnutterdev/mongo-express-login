@@ -12,6 +12,8 @@ const passwordRoutes = require('./routes/password');
 const secureRoutes = require('./routes/secure');
 
 // setup mongo connection
+// Example user connection string for mongodb:
+// mongodb://[username:password]@[host:port]/[database]?[options]
 const uri = process.env.MONGO_CONNECTION_URL;
 const mongoConfig = {
   useNewUrlParser: true,

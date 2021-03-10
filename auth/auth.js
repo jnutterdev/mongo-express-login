@@ -2,7 +2,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const jwtStrategy = require('passport-jwt');
 
-const UserModel = require('../models/UserModel');
+const UserModel = require('../models/UserModel'); 
 
 // handle user registration
 passport.use('signup', new localStrategy.Strategy({
@@ -11,11 +11,11 @@ passport.use('signup', new localStrategy.Strategy({
   passReqToCallback: true,
 }, async (request, email, password, done) => {
   try {
-    const { username } = request.body;
-    const user = await UserModel.create({ email, password, username });
-    return done(null, user);
+    const { username } = request.body; 
+    const user = await UserModel.create({ email, password, username }); // creates new user
+    return done(null, user); // returns user object 
   } catch (error) {
-    return done(error);
+    return done(error); // throws an error if there's an issue creating user 
   }
 }));
 
@@ -25,7 +25,7 @@ passport.use('login', new localStrategy.Strategy({
   passwordField: 'password',
 }, async (email, password, done) => {
   try {
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }); // searches for one email in the database, returns first email it finds as a match
     if (!user) {
       return done(new Error('user not found'), false);
     }

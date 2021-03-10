@@ -31,13 +31,13 @@ router.post('/login', async (request, response, next) => {
         if (err) return next(err);
 
         // create our jwt
-        const body = {
+        const body = {   // creates body of request for generating JWT
           _id: user._id,
           email: user.email,
           name: user.username,
         };
-
-        const token = jwt.sign({ user: body }, process.env.JWT_SECRET, { expiresIn: 300 });
+          // the secret is not shared with anyone else
+        const token = jwt.sign({ user: body }, process.env.JWT_SECRET, { expiresIn: 300 }); // needs to have a shorter lifespan than refresh token
         const refreshToken = jwt.sign({ user: body }, process.env.JWT_REFRESH_SECRET, { expiresIn: 86400 });
 
         // store tokens in cookie
@@ -45,6 +45,7 @@ router.post('/login', async (request, response, next) => {
         response.cookie('refreshJwt', refreshToken);
 
         // store tokens in memory
+         // this is used for storing the refresh token. normally stored in a database, but simplified in memory for this tutorial
         tokenList[refreshToken] = {
           token,
           refreshToken,
